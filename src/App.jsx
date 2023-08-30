@@ -1,13 +1,14 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Kanji from "./Pages/Kanji";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
+      <Kanji />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
