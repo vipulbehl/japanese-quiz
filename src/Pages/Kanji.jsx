@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-
-// const { Kanjiapi } = require("kanjiapi-wrapper");
+import { useEffect, useState, useRef } from "react";
 
 const Kanji = () => {
   const [kanjiData, setkanjiData] = useState([]);
-  const [singleKanjiData, setSingleKanjiData] = useState([]);
+  const [kanjiNumber, setKanjiNumber] = useState(1);
+  const [extractedKanji, setExtractedKanji] = useState([]);
+  const [currentKanjiIndex, setCurrentKanjiIndex] = useState([]);
+  const [showNextButton, setShowNextButton] = useState(false);
 
   // Display the Grade 1 kanji characters
   const getKanjiData = async () => {
@@ -13,32 +14,79 @@ const Kanji = () => {
     setkanjiData(kanjis);
     console.log(kanjis);
     //It is JSON Array
-    getSingleKanji();
-  };
-
-  //Randomly select one kanji from this list, store it somewhere, then hit the API https://kanjiapi.dev/v1/kanji/{the-kanji-retrived}
-  const getSingleKanji = async () => {
-    const randomIndex = Math.floor(Math.random() * kanjiData.length);
-    console.log(randomIndex);
-    const randomIndexKanji = kanjiData[randomIndex];
-    console.log(randomIndexKanji);
-    // Simply console log the response retrived from the API
-    const singleData = await fetch(`https://kanjiapi.dev/v1/kanji/出`);
-    const singleKanji = await singleData.json();
-    setSingleKanjiData(singleKanji);
-    console.log(singleKanji);
   };
 
   useEffect(() => {
     getKanjiData();
   }, []);
 
+  const extractNumber = (event) => {
+    setKanjiNumber(event.target.value);
+    console.log("value is:", event.target.value);
+  };
+
+  const getListStoreKanji = async () => {
+    if (
+      !isNaN(kanjiNumber) &&
+      kanjiNumber > 0 &&
+      kanjiNumber <= kanjiData.length
+    ) {
+      const extracted = [];
+      for (let i = 0; i < kanjiNumber; i++) {
+        const randomIndex = Math.floor(Math.random() * kanjiData.length);
+        const randomIndexKanji = kanjiData[randomIndex];
+        const singleData = await fetch(
+          `https://kanjiapi.dev/v1/kanji/${randomIndexKanji}`
+        );
+        const singleKanji = await singleData.json();
+        extracted.push(singleKanji);
+      }
+      setExtractedKanji(extracted);
+      setCurrentKanjiIndex(0);
+      setShowNextButton(true);
+    } else {
+      alert(
+        "Invalid input. Please enter a number between 1 and the available kanji characters."
+      );
+    }
+  };
+
+  const showNextKanji = () => {
+    if (currentKanjiIndex < extractedKanji.length - 1) {
+      setCurrentKanjiIndex(currentKanjiIndex + 1);
+    } else {
+      setShowNextButton(false);
+    }
+  };
+
   return (
-    <ul>
-      {kanjiData.map((kanji, index) => {
-        return <li key={index}>{kanji}</li>;
-      })}
-    </ul>
+    <div>
+      <div className="getKanjiSection">
+        <input
+          type="text"
+          id="kanjiNumber"
+          name="kanjiNumber"
+          onChange={extractNumber}
+          value={kanjiNumber}
+        />
+        {/* Do for just grade-1 later select other grades */}
+        <button onClick={getListStoreKanji}>Let's Go</button>
+      </div>
+      <div className="extractedKanjiSection">
+        {extractedKanji.length > 0 && (
+          <div>
+            {console.log(extractedKanji)}
+            <h2>Extracted Kanji</h2>
+            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
+            <p>Onyomi Readings :</p>
+            <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
+            <p>Kunyomi Readings :</p>
+            <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p>
+            {showNextButton && <button onClick={showNextKanji}>Next</button>}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
