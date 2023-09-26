@@ -1,41 +1,63 @@
 //Kanji Page is the quiz page
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 
 const Kanji = () => {
-  const [kanjiData, setKanjiData] = useState([]);
+  const [kanjiData, setkanjiData] = useState([]);
+  const [kanjiNumber, setKanjiNumber] = useState(1);
   const [extractedKanji, setExtractedKanji] = useState([]);
-  const [currentKanjiIndex, setCurrentKanjiIndex] = useState(0);
-  const [userKanjiInput, setUserKanjiInput] = useState("");
+  const [currentKanjiIndex, setCurrentKanjiIndex] = useState([]);
+  const [userKanjiInput, setUserKanjiInput] = useState([]);
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [showResults, setShowResults] = useState(false);
-  const { selectedLevel, kanjiNumber } = useParams();
-  const navigate = useNavigate();
 
-  // Dynamic API calling as per the level selected
+  const levels = [
+    "grade-1",
+    "grade-2",
+    "grade-3",
+    "grade-4",
+    "grade-5",
+    "grade-6",
+    "grade-8",
+    "all",
+  ];
+
+  // Display the Grade 1 kanji characters
+  // const getKanjiData = async () => {
+  //   const data = await fetch(`https://kanjiapi.dev/v1/kanji/grade-1`);
+  //   const kanjis = await data.json();
+  //   setkanjiData(kanjis);
+  //   console.log(kanjis);
+  //   //It is JSON Array
+  // };
+
+  //Dynamic API calling as per the level selected
   const getKanjiData = async (level) => {
-    console.log("Selected Level:", level);
     const data = await fetch(`https://kanjiapi.dev/v1/kanji/${level}`);
     const kanjis = await data.json();
-    setKanjiData(kanjis);
+    setkanjiData(kanjis);
     console.log(kanjis);
+    //It is JSON Array
+  };
+
+  const selectLevel = (level) => {
+    getKanjiData(level);
   };
 
   useEffect(() => {
-    console.log("Received Selected Level:", selectedLevel);
-    if (selectedLevel) {
-      getKanjiData(selectedLevel);
-    }
-  }, [selectedLevel]);
+    getKanjiData();
+  }, []);
 
-  useEffect(() => {
-    getListStoreKanji();
-  }, [kanjiData]);
+  const extractNumber = (event) => {
+    setKanjiNumber(event.target.value);
+    console.log("value is:", event.target.value);
+  };
+  const extractUserKanjiInput = (event) => {
+    setUserKanjiInput(event.target.value);
+    console.log("User Kani Input is : ", event.target.value);
+  };
 
-  //stores the data for the randomly extracted number of kanjis
   const getListStoreKanji = async () => {
     if (
       !isNaN(kanjiNumber) &&
@@ -54,12 +76,11 @@ const Kanji = () => {
       }
       setExtractedKanji(extracted);
       setCurrentKanjiIndex(0);
+    } else {
+      alert(
+        "Invalid input. Please enter a number between 1 and the available kanji characters."
+      );
     }
-  };
-
-  const extractUserKanjiInput = (event) => {
-    setUserKanjiInput(event.target.value);
-    console.log("User Kani Input is : ", event.target.value);
   };
 
   const checkAndShowNextKanji = () => {
@@ -84,14 +105,31 @@ const Kanji = () => {
         setUserKanjiInput("");
       } else {
         // Last kanji, show results
-        navigate("/result", { state: { correctAnswers, incorrectAnswers } });
-        // setShowResults(true);
+        setShowResults(true);
       }
     }, 3000);
   };
 
   return (
     <div>
+      <div className="select-level">
+        {levels.map((level) => (
+          <button key={level} onClick={() => selectLevel(level)}>
+            {level}
+          </button>
+        ))}
+      </div>
+      <div className="getKanjiSection">
+        <input
+          type="text"
+          id="kanjiNumber"
+          name="kanjiNumber"
+          onChange={extractNumber}
+          value={kanjiNumber}
+        />
+        {/* Do for just grade-1 later select other grades */}
+        <button onClick={getListStoreKanji}>Let's Go</button>
+      </div>
       <div className="extractedKanjiSection">
         {extractedKanji.length > 0 && (
           <div>
@@ -124,13 +162,13 @@ const Kanji = () => {
                 </button>
               )}
 
-              {/* {showResults && (
+              {showResults && (
                 <div className="resultsSection">
                   <h2>Results</h2>
                   <p>Correct Answers: {correctAnswers}</p>
                   <p>Incorrect Answers: {incorrectAnswers}</p>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         )}

@@ -1,14 +1,8 @@
-import { useState } from "react";
 import "./App.css";
-import Kanji from "./Pages/Kanji";
+import Pages from "./Pages/Pages";
 
-function App() {
-
-  return (
-    <>
-      <Kanji />
-    </>
-  );
-}
+const App = () => {
+  return <Pages />;
+};
 
 export default App;
