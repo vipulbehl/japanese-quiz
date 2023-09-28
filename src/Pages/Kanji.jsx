@@ -1,7 +1,6 @@
 //Kanji Page is the quiz page
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
 
 const Kanji = () => {
   const [kanjiData, setKanjiData] = useState([]);
@@ -11,7 +10,6 @@ const Kanji = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
-  const [showResults, setShowResults] = useState(false);
   const { selectedLevel, kanjiNumber } = useParams();
   const navigate = useNavigate();
 
@@ -83,9 +81,7 @@ const Kanji = () => {
         setIsCorrect(null);
         setUserKanjiInput("");
       } else {
-        // Last kanji, show results
-        navigate("/result", { state: { correctAnswers, incorrectAnswers } });
-        // setShowResults(true);
+        navigate(`/result/${correctAnswers}/${incorrectAnswers}`);
       }
     }, 3000);
   };
@@ -123,14 +119,6 @@ const Kanji = () => {
                   Check and Proceed
                 </button>
               )}
-
-              {/* {showResults && (
-                <div className="resultsSection">
-                  <h2>Results</h2>
-                  <p>Correct Answers: {correctAnswers}</p>
-                  <p>Incorrect Answers: {incorrectAnswers}</p>
-                </div>
-              )} */}
             </div>
           </div>
         )}
@@ -140,19 +128,3 @@ const Kanji = () => {
 };
 
 export default Kanji;
-
-//To Do
-/*
-
-
-
-*DONE*
--> Now I want to have the input field where the user will input the meaning of the kanji character, and on click of Next button  
-
-*DONE*
--> If the user click on Check and Proceed the value from the input field would be compared from the meaning of the API, if matches any element in the list
-show correct otherwise show incorrect 
-  --> This is be shown for 5s and after that next kanji should be shown
-  -->Comparision should be done in such a way all the elements in the array should be compared in case insesitive way
-
-*/
