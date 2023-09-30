@@ -2,10 +2,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+//Since the last quiz questions state was not being updated using setCorrectAnswers & setIncorrectAnswers because of post increment happening
+//two varibales were take with pre increment, providing correctAnswers & incorrectAnswers as state 1 was not a solution since leaner cannot start with 1
+let newCorrectAnswers = 0;
+let newIncorrectAnswers = 0;
 const Kanji = () => {
   const [kanjiData, setKanjiData] = useState([]);
   const [extractedKanji, setExtractedKanji] = useState([]);
-  const [currentKanjiIndex, setCurrentKanjiIndex] = useState(0);
+  const [currentKanjiIndex, setCurrentKanjiIndex] = useState();
   const [userKanjiInput, setUserKanjiInput] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -68,10 +72,14 @@ const Kanji = () => {
 
     if (actualMeanings.includes(userMeaning)) {
       setIsCorrect(true);
-      setCorrectAnswers(correctAnswers + 1);
+      ++newCorrectAnswers;
+      setCorrectAnswers(newCorrectAnswers);
+      console.log("Correct Count", newCorrectAnswers);
     } else {
       setIsCorrect(false);
-      setIncorrectAnswers(incorrectAnswers + 1);
+      ++newIncorrectAnswers;
+      setIncorrectAnswers(newIncorrectAnswers);
+      console.log("Incorrect Count", newIncorrectAnswers);
     }
 
     // Delay for 5 seconds and then proceed to the next kanji
@@ -81,7 +89,7 @@ const Kanji = () => {
         setIsCorrect(null);
         setUserKanjiInput("");
       } else {
-        navigate(`/result/${correctAnswers}/${incorrectAnswers}`);
+        navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
       }
     }, 3000);
   };
