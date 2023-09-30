@@ -94,6 +94,13 @@ const Kanji = () => {
     }, 3000);
   };
 
+  const hitEntertoProceed = (event) => {
+    //it triggers by pressing the enter key
+    if (event.keyCode === 13) {
+      checkAndShowNextKanji();
+    }
+  };
+
   return (
     <div>
       <div className="extractedKanjiSection">
@@ -114,6 +121,7 @@ const Kanji = () => {
                 id="kanjiInput"
                 name="kanjiInput"
                 onChange={extractUserKanjiInput}
+                onKeyDown={hitEntertoProceed}
                 placeholder="Kanji Meaning..."
                 value={userKanjiInput}
               />

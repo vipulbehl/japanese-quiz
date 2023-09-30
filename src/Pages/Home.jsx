@@ -33,6 +33,14 @@ const Home = () => {
     // navigate("/kanji", { state: { selectedLevel, kanjiNumber } });
     navigate(`/kanji/${selectedLevel}/${kanjiNumber}`);
   };
+
+  const hitEntertoProceed = (event) => {
+    //it triggers by pressing the enter key
+    if (event.keyCode === 13) {
+      startQuiz();
+    }
+  };
+
   return (
     <div>
       <div className="select-level">
@@ -48,6 +56,7 @@ const Home = () => {
           id="kanjiNumber"
           name="kanjiNumber"
           onChange={extractNumber}
+          onKeyDown={hitEntertoProceed}
           value={kanjiNumber}
         />
         <button onClick={startQuiz}>Let's Go</button>
