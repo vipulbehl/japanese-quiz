@@ -13,9 +13,12 @@ const levels = [
   "all",
 ];
 
+const quizes = ["Kanji To Meaning", "Meaning To Kanji"];
+
 const Home = () => {
   const [selectedLevel, setSelectedLevel] = useState("grade-1");
   const [kanjiNumber, setKanjiNumber] = useState(1);
+  const [quizType, setQuizType] = useState("Kanji To Meaning");
   const navigate = useNavigate();
 
   const selectLevel = (level) => {
@@ -30,8 +33,13 @@ const Home = () => {
 
   const startQuiz = () => {
     console.log("Selected Level:", selectedLevel);
-    // navigate("/kanji", { state: { selectedLevel, kanjiNumber } });
+    // navigate(`/kanji/${selectedLevel}/${kanjiNumber}`);
     navigate(`/kanji/${selectedLevel}/${kanjiNumber}`);
+  };
+
+  const selectQuizType = (quiz) => {
+    console.log("Type of quiz :", quizType);
+    setQuizType(quiz);
   };
 
   const hitEntertoProceed = (event) => {
@@ -60,6 +68,13 @@ const Home = () => {
           value={kanjiNumber}
         />
         <button onClick={startQuiz}>Let's Go</button>
+      </div>
+      <div className="quiz-type">
+        {quizes.map((quiz) => (
+          <button key={quiz} onClick={() => selectQuizType(quiz)}>
+            {quiz}
+          </button>
+        ))}
       </div>
     </div>
   );

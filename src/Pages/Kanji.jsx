@@ -61,7 +61,7 @@ const Kanji = () => {
 
   const extractUserKanjiInput = (event) => {
     setUserKanjiInput(event.target.value);
-    console.log("User Kani Input is : ", event.target.value);
+    console.log("User Kanji Input is : ", event.target.value);
   };
 
   const checkAndShowNextKanji = () => {
@@ -94,16 +94,90 @@ const Kanji = () => {
     }, 3000);
   };
 
-  const hitEntertoProceed = (event) => {
+  const checkAndShowNextMeaning = () => {
+    const userMeaning = userKanjiInput.normalize("NFC");
+    const actualMeanings =
+      extractedKanji[currentKanjiIndex].kanji.normalize("NFC");
+    console.log(userMeaning);
+    console.log(typeof userMeaning);
+    console.log(typeof actualMeanings);
+    if (actualMeanings == userMeaning) {
+      setIsCorrect(true);
+      ++newCorrectAnswers;
+      setCorrectAnswers(newCorrectAnswers);
+      console.log("Correct Count", newCorrectAnswers);
+    } else {
+      setIsCorrect(false);
+      ++newIncorrectAnswers;
+      setIncorrectAnswers(newIncorrectAnswers);
+      console.log("Incorrect Count", newIncorrectAnswers);
+    }
+    // Delay for 5 seconds and then proceed to the next kanji
+    setTimeout(() => {
+      if (currentKanjiIndex < extractedKanji.length - 1) {
+        setCurrentKanjiIndex(currentKanjiIndex + 1);
+        setIsCorrect(null);
+        setUserKanjiInput("");
+      } else {
+        navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
+      }
+    }, 3000);
+  };
+
+  const hitEntertoProceedKanji = (event) => {
     //it triggers by pressing the enter key
     if (event.keyCode === 13) {
       checkAndShowNextKanji();
     }
   };
+  const hitEntertoProceedMeaning = (event) => {
+    //it triggers by pressing the enter key
+    if (event.keyCode === 13) {
+      checkAndShowNextMeaning();
+    }
+  };
 
+  //Need to add contion rendering as per the Type of Quiz Selected
   return (
     <div>
       <div className="extractedKanjiSection">
+        {extractedKanji.length > 0 && (
+          <div>
+            {console.log(extractedKanji)}
+            <h2>Extracted Kanji's Meaning</h2>
+            <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
+            {/* <p>Onyomi Readings :</p>
+            <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
+            <p>Kunyomi Readings :</p>
+            <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p> */}
+            <p>Kanji</p>
+            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
+            <div className="checkKanji">
+              <input
+                type="text"
+                id="kanjiInput"
+                name="kanjiInput"
+                lang="ja"
+                onChange={extractUserKanjiInput}
+                onKeyDown={hitEntertoProceedMeaning}
+                placeholder="Kanji..."
+                value={userKanjiInput}
+              />
+            </div>
+            <div className="quizMiniResult">
+              {isCorrect != null && (
+                <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
+              )}
+              {currentKanjiIndex < extractedKanji.length && (
+                <button onClick={checkAndShowNextMeaning}>
+                  Check and Proceed
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+      {/* <div className="extractedKanjiSection">
         {extractedKanji.length > 0 && (
           <div>
             {console.log(extractedKanji)}
@@ -121,7 +195,7 @@ const Kanji = () => {
                 id="kanjiInput"
                 name="kanjiInput"
                 onChange={extractUserKanjiInput}
-                onKeyDown={hitEntertoProceed}
+                onKeyDown={hitEntertoProceedKanji}
                 placeholder="Kanji Meaning..."
                 value={userKanjiInput}
               />
@@ -138,7 +212,7 @@ const Kanji = () => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
