@@ -10,7 +10,10 @@ function Pages() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         {/* <Route path="/kanji" element={<Kanji />} /> */}
-        <Route path="/kanji/:selectedLevel/:kanjiNumber" element={<Kanji />} />
+        <Route
+          path="/kanji/:selectedLevel/:kanjiNumber/:quizType"
+          element={<Kanji />}
+        />
         <Route
           path="/result/:correctAnswers/:incorrectAnswers"
           element={<Result />}

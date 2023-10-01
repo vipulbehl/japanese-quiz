@@ -14,7 +14,7 @@ const Kanji = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
-  const { selectedLevel, kanjiNumber } = useParams();
+  const { selectedLevel, kanjiNumber, quizType } = useParams();
   const navigate = useNavigate();
 
   // Dynamic API calling as per the level selected
@@ -137,47 +137,102 @@ const Kanji = () => {
     }
   };
 
+  //Variable to store the quiz type
+  // const userSelectedQuizType = quizType;
+
   //Need to add contion rendering as per the Type of Quiz Selected
   return (
     <div>
-      <div className="extractedKanjiSection">
-        {extractedKanji.length > 0 && (
-          <div>
-            {console.log(extractedKanji)}
-            <h2>Extracted Kanji's Meaning</h2>
-            <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
-            {/* <p>Onyomi Readings :</p>
+      {quizType === "Kanji To Meaning" ? (
+        //Kanji To Meaning Code here
+        <div className="extractedKanjiSection">
+          {extractedKanji.length > 0 && (
+            <div>
+              {console.log(extractedKanji)}
+              <h2>Extracted Kanji</h2>
+              <p>{extractedKanji[currentKanjiIndex].kanji}</p>
+              <p>Onyomi Readings :</p>
+              <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
+              <p>Kunyomi Readings :</p>
+              <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p>
+              <p>Kanji Meaning :</p>
+              <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
+              <div className="checkKanji">
+                <input
+                  type="text"
+                  id="kanjiInput"
+                  name="kanjiInput"
+                  onChange={extractUserKanjiInput}
+                  onKeyDown={hitEntertoProceedKanji}
+                  placeholder="Kanji Meaning..."
+                  value={userKanjiInput}
+                />
+              </div>
+              <div className="quizMiniResult">
+                {isCorrect != null && (
+                  <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
+                )}
+                {currentKanjiIndex < extractedKanji.length && (
+                  <button onClick={checkAndShowNextKanji}>
+                    Check and Proceed
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        //Meaning to Kanji Code here
+        <div className="extractedKanjiSection">
+          {extractedKanji.length > 0 && (
+            <div>
+              {console.log(extractedKanji)}
+              <h2>Extracted Kanji's Meaning</h2>
+              <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
+              {/* <p>Onyomi Readings :</p>
             <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
             <p>Kunyomi Readings :</p>
             <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p> */}
-            <p>Kanji</p>
-            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
-            <div className="checkKanji">
-              <input
-                type="text"
-                id="kanjiInput"
-                name="kanjiInput"
-                lang="ja"
-                onChange={extractUserKanjiInput}
-                onKeyDown={hitEntertoProceedMeaning}
-                placeholder="Kanji..."
-                value={userKanjiInput}
-              />
+              <p>Kanji</p>
+              <p>{extractedKanji[currentKanjiIndex].kanji}</p>
+              <div className="checkKanji">
+                <input
+                  type="text"
+                  id="kanjiInput"
+                  name="kanjiInput"
+                  lang="ja"
+                  onChange={extractUserKanjiInput}
+                  onKeyDown={hitEntertoProceedMeaning}
+                  placeholder="Kanji..."
+                  value={userKanjiInput}
+                />
+              </div>
+              <div className="quizMiniResult">
+                {isCorrect != null && (
+                  <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
+                )}
+                {currentKanjiIndex < extractedKanji.length && (
+                  <button onClick={checkAndShowNextMeaning}>
+                    Check and Proceed
+                  </button>
+                )}
+              </div>
             </div>
-            <div className="quizMiniResult">
-              {isCorrect != null && (
-                <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
-              )}
-              {currentKanjiIndex < extractedKanji.length && (
-                <button onClick={checkAndShowNextMeaning}>
-                  Check and Proceed
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-      {/* <div className="extractedKanjiSection">
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Kanji;
+
+//Kanji To Meaning Code
+
+{
+  /*  
+      //Kanji To Meaning Code      
+      <div className="extractedKanjiSection">
         {extractedKanji.length > 0 && (
           <div>
             {console.log(extractedKanji)}
@@ -212,9 +267,53 @@ const Kanji = () => {
             </div>
           </div>
         )}
-      </div> */}
-    </div>
-  );
-};
+      </div> 
+      
+      // Meaning To Kanji Code
+      
+      
+      */
+}
 
-export default Kanji;
+//Meaning To Kanji Code
+/*
+      <div className="extractedKanjiSection">
+        {extractedKanji.length > 0 && (
+          <div>
+            {console.log(extractedKanji)}
+            <h2>Extracted Kanji's Meaning</h2>
+            <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
+            <p>Onyomi Readings :</p>
+            <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
+            <p>Kunyomi Readings :</p>
+            <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p> 
+            <p>Kanji</p>
+            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
+            <div className="checkKanji">
+              <input
+                type="text"
+                id="kanjiInput"
+                name="kanjiInput"
+                lang="ja"
+                onChange={extractUserKanjiInput}
+                onKeyDown={hitEntertoProceedMeaning}
+                placeholder="Kanji..."
+                value={userKanjiInput}
+              />
+            </div>
+            <div className="quizMiniResult">
+              {isCorrect != null && (
+                <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
+              )}
+              {currentKanjiIndex < extractedKanji.length && (
+                <button onClick={checkAndShowNextMeaning}>
+                  Check and Proceed
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+
+*/

@@ -1,5 +1,5 @@
 //Home page this will have the level selector and the number of questions for the quiz
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const levels = [
@@ -33,14 +33,17 @@ const Home = () => {
 
   const startQuiz = () => {
     console.log("Selected Level:", selectedLevel);
-    // navigate(`/kanji/${selectedLevel}/${kanjiNumber}`);
-    navigate(`/kanji/${selectedLevel}/${kanjiNumber}`);
+    navigate(`/kanji/${selectedLevel}/${kanjiNumber}/${quizType}`);
   };
 
   const selectQuizType = (quiz) => {
-    console.log("Type of quiz :", quizType);
     setQuizType(quiz);
   };
+
+  // This is just to get the correct Quiz Type in Console
+  useEffect(() => {
+    console.log("Type of quiz :", quizType);
+  }, [quizType]);
 
   const hitEntertoProceed = (event) => {
     //it triggers by pressing the enter key
@@ -67,14 +70,14 @@ const Home = () => {
           onKeyDown={hitEntertoProceed}
           value={kanjiNumber}
         />
+        <div className="quiz-type">
+          {quizes.map((quiz) => (
+            <button key={quiz} onClick={() => selectQuizType(quiz)}>
+              {quiz}
+            </button>
+          ))}
+        </div>
         <button onClick={startQuiz}>Let's Go</button>
-      </div>
-      <div className="quiz-type">
-        {quizes.map((quiz) => (
-          <button key={quiz} onClick={() => selectQuizType(quiz)}>
-            {quiz}
-          </button>
-        ))}
       </div>
     </div>
   );
