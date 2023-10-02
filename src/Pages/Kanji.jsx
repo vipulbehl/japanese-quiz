@@ -16,7 +16,10 @@ const Kanji = () => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   const { selectedLevel, kanjiNumber, quizType } = useParams();
+
   const navigate = useNavigate();
 
   // Dynamic API calling as per the level selected
@@ -26,16 +29,10 @@ const Kanji = () => {
     const kanjis = await data.json();
     setKanjiData(kanjis);
     console.log(kanjis);
+    //Setting these variables to 0 since every time the components
+    //Redirects from result to home and then to Kanji this should be 0 otherwise the results would be cumilate
     newCorrectAnswers = 0;
     newIncorrectAnswers = 0;
-    setCorrectAnswers(0);
-    setIncorrectAnswers(0);
-    console.log("Correct state and new values");
-    console.log(correctAnswers);
-    console.log(newCorrectAnswers);
-    console.log("Incorrect state and new values");
-    console.log(incorrectAnswers);
-    console.log(newIncorrectAnswers);
   };
 
   useEffect(() => {
@@ -77,6 +74,17 @@ const Kanji = () => {
   };
 
   const checkAndShowNextKanji = () => {
+    //To prevent multiple clicks for Check and Proceed
+    //Initially false -> Get into the func -> Becomes true ->
+    //Everytime on click stays true (unclickable) ->
+    //After 3 seconeds gets back to false(clickable) ->
+    //Also after 3 seconds the kanji changes
+
+    if (buttonDisabled) {
+      return;
+    }
+    setButtonDisabled(true);
+
     const userMeaning = userKanjiInput.trim().toLowerCase();
     const actualMeanings = extractedKanji[currentKanjiIndex].meanings.map(
       (meaning) => meaning.toLowerCase()
@@ -103,6 +111,7 @@ const Kanji = () => {
       } else {
         navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
       }
+      setButtonDisabled(false);
     }, 3000);
   };
 

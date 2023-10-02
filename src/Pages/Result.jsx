@@ -2,7 +2,7 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 
-const Result = ({ resetQuizResult }) => {
+const Result = () => {
   const { correctAnswers, incorrectAnswers } = useParams();
 
   return (
