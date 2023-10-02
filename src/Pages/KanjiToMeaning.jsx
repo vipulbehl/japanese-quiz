@@ -9,6 +9,7 @@ const KanjiToMeaning = ({
   isCorrect,
   checkAndShowNextKanji,
   inputBlank,
+  markIncorrectOnSkip,
 }) => {
   return (
     <div>
@@ -42,6 +43,7 @@ const KanjiToMeaning = ({
               {isCorrect != null && (
                 <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
               )}
+              {<button onClick={markIncorrectOnSkip}>Skip</button>}
               {currentKanjiIndex < extractedKanji.length && (
                 <button onClick={checkAndShowNextKanji}>
                   Check and Proceed

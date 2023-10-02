@@ -17,8 +17,8 @@ const Kanji = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [skipButtonDisabled, setSkipButtonDisabled] = useState(false);
   const [inputBlank, setInputBlank] = useState(false);
-  const [skipAnswer, setSkipAnswer] = useState(false);
 
   const { selectedLevel, kanjiNumber, quizType } = useParams();
 
@@ -195,6 +195,28 @@ const Kanji = () => {
     }
   };
 
+  const markIncorrectOnSkip = () => {
+    if (skipButtonDisabled) {
+      return;
+    }
+
+    setSkipButtonDisabled(true);
+
+    setIsCorrect(false);
+    ++newIncorrectAnswers;
+    setIncorrectAnswers(newIncorrectAnswers);
+    console.log("Incorrect Count", newIncorrectAnswers);
+    setTimeout(() => {
+      if (currentKanjiIndex < extractedKanji.length - 1) {
+        setCurrentKanjiIndex(currentKanjiIndex + 1);
+        setIsCorrect(null);
+        setUserKanjiInput("");
+      } else {
+        navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
+      }
+      setSkipButtonDisabled(false);
+    }, 3000);
+  };
   //Need to add contion rendering as per the Type of Quiz Selected
   return (
     <div>
@@ -208,6 +230,7 @@ const Kanji = () => {
           isCorrect={isCorrect}
           checkAndShowNextKanji={checkAndShowNextKanji}
           inputBlank={inputBlank}
+          markIncorrectOnSkip={markIncorrectOnSkip}
         />
       ) : (
         <MeaningToKanji
@@ -219,6 +242,7 @@ const Kanji = () => {
           isCorrect={isCorrect}
           checkAndShowNextMeaning={checkAndShowNextMeaning}
           inputBlank={inputBlank}
+          markIncorrectOnSkip={markIncorrectOnSkip}
         />
       )}
     </div>
