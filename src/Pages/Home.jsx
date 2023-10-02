@@ -19,6 +19,8 @@ const Home = () => {
   const [selectedLevel, setSelectedLevel] = useState("grade-1");
   const [kanjiNumber, setKanjiNumber] = useState(1);
   const [quizType, setQuizType] = useState("Kanji To Meaning");
+  const [showWarning, setShowWarning] = useState(false);
+
   const navigate = useNavigate();
 
   const selectLevel = (level) => {
@@ -29,10 +31,19 @@ const Home = () => {
   const extractNumber = (event) => {
     setKanjiNumber(event.target.value);
     console.log("value is:", event.target.value);
+
+    if (event.target.value > 80) {
+      setShowWarning(true);
+    } else {
+      setShowWarning(false);
+    }
   };
 
   const startQuiz = () => {
     console.log("Selected Level:", selectedLevel);
+    if (kanjiNumber > 80) {
+      return;
+    }
     navigate(`/kanji/${selectedLevel}/${kanjiNumber}/${quizType}`);
   };
 
@@ -77,7 +88,21 @@ const Home = () => {
             </button>
           ))}
         </div>
-        <button onClick={startQuiz}>Let's Go</button>
+        {showWarning && (
+          <p className="warning-message">
+            Studies have shown taking a maximum of 80 questions at once
+            optimizes quiz output for the learner.
+          </p>
+        )}
+        <button onClick={startQuiz} disabled={kanjiNumber > 80}>
+          Let's Go
+        </button>
+        <div className="quizSettings">
+          <h3>Current Quiz Settings</h3>
+          <p>Grade:{selectedLevel}</p>
+          <p>Number of Quiz Questions: {kanjiNumber}</p>
+          <p>Quiz Type : {quizType}</p>
+        </div>
       </div>
     </div>
   );

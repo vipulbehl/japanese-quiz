@@ -8,6 +8,7 @@ const KanjiToMeaning = ({
   userKanjiInput,
   isCorrect,
   checkAndShowNextKanji,
+  inputBlank,
 }) => {
   return (
     <div>
@@ -34,6 +35,9 @@ const KanjiToMeaning = ({
                 value={userKanjiInput}
               />
             </div>
+            {inputBlank && (
+              <p className="warning-message">Input cannot be blank!</p>
+            )}
             <div className="quizMiniResult">
               {isCorrect != null && (
                 <p>{isCorrect ? "Correct!" : "Incorrect"}</p>

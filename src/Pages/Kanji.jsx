@@ -17,6 +17,8 @@ const Kanji = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [inputBlank, setInputBlank] = useState(false);
+  const [skipAnswer, setSkipAnswer] = useState(false);
 
   const { selectedLevel, kanjiNumber, quizType } = useParams();
 
@@ -83,7 +85,18 @@ const Kanji = () => {
     if (buttonDisabled) {
       return;
     }
+
+    // Check if the input is blank
+    if (userKanjiInput.trim() === "") {
+      setInputBlank(true);
+      return; // Don't proceed further
+    }
+
+    // Disable the button
     setButtonDisabled(true);
+
+    // Reset the input blank flag
+    setInputBlank(false);
 
     const userMeaning = userKanjiInput.trim().toLowerCase();
     const actualMeanings = extractedKanji[currentKanjiIndex].meanings.map(
@@ -116,6 +129,28 @@ const Kanji = () => {
   };
 
   const checkAndShowNextMeaning = () => {
+    //To prevent multiple clicks for Check and Proceed
+    //Initially false -> Get into the func -> Becomes true ->
+    //Everytime on click stays true (unclickable) ->
+    //After 3 seconeds gets back to false(clickable) ->
+    //Also after 3 seconds the kanji changes
+
+    if (buttonDisabled) {
+      return;
+    }
+
+    // Check if the input is blank
+    if (userKanjiInput.trim() === "") {
+      setInputBlank(true);
+      return; // Don't proceed further
+    }
+
+    // Disable the button
+    setButtonDisabled(true);
+
+    // Reset the input blank flag
+    setInputBlank(false);
+
     const userMeaning = userKanjiInput.normalize("NFC");
     const actualMeanings =
       extractedKanji[currentKanjiIndex].kanji.normalize("NFC");
@@ -142,6 +177,7 @@ const Kanji = () => {
       } else {
         navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
       }
+      setButtonDisabled(false);
     }, 3000);
   };
 
@@ -171,6 +207,7 @@ const Kanji = () => {
           userKanjiInput={userKanjiInput}
           isCorrect={isCorrect}
           checkAndShowNextKanji={checkAndShowNextKanji}
+          inputBlank={inputBlank}
         />
       ) : (
         <MeaningToKanji
@@ -181,6 +218,7 @@ const Kanji = () => {
           userKanjiInput={userKanjiInput}
           isCorrect={isCorrect}
           checkAndShowNextMeaning={checkAndShowNextMeaning}
+          inputBlank={inputBlank}
         />
       )}
     </div>
