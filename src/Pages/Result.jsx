@@ -2,8 +2,9 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 
-const Result = () => {
+const Result = ({ resetQuizResult }) => {
   const { correctAnswers, incorrectAnswers } = useParams();
+
   return (
     <div className="resultSection">
       <h1>Results</h1>

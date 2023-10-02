@@ -26,6 +26,16 @@ const Kanji = () => {
     const kanjis = await data.json();
     setKanjiData(kanjis);
     console.log(kanjis);
+    newCorrectAnswers = 0;
+    newIncorrectAnswers = 0;
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    console.log("Correct state and new values");
+    console.log(correctAnswers);
+    console.log(newCorrectAnswers);
+    console.log("Incorrect state and new values");
+    console.log(incorrectAnswers);
+    console.log(newIncorrectAnswers);
   };
 
   useEffect(() => {
