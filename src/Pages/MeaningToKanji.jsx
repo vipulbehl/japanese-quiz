@@ -10,6 +10,8 @@ const MeaningToKanji = ({
   checkAndShowNextMeaning,
   inputBlank,
   markIncorrectOnSkip,
+  disableSkip,
+  disableCheck,
 }) => {
   return (
     <div className="extractedKanjiSection">
@@ -41,9 +43,19 @@ const MeaningToKanji = ({
           )}
           <div className="quizMiniResult">
             {isCorrect != null && <p>{isCorrect ? "Correct!" : "Incorrect"}</p>}
-            {<button onClick={markIncorrectOnSkip}>Skip</button>}
+            {isCorrect == false && (
+              <p>
+                Correct Answer is:
+                {" " + extractedKanji[currentKanjiIndex].kanji}
+              </p>
+            )}
+            {
+              <button onClick={markIncorrectOnSkip} disabled={disableSkip}>
+                Skip
+              </button>
+            }
             {currentKanjiIndex < extractedKanji.length && (
-              <button onClick={checkAndShowNextMeaning}>
+              <button onClick={checkAndShowNextMeaning} disabled={disableCheck}>
                 Check and Proceed
               </button>
             )}

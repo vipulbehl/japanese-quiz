@@ -19,6 +19,8 @@ const Kanji = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [skipButtonDisabled, setSkipButtonDisabled] = useState(false);
   const [inputBlank, setInputBlank] = useState(false);
+  const [disableSkip, setDisableSkip] = useState(false);
+  const [disableCheck, setDisableCheck] = useState(false);
 
   const { selectedLevel, kanjiNumber, quizType } = useParams();
 
@@ -95,6 +97,9 @@ const Kanji = () => {
     // Disable the button
     setButtonDisabled(true);
 
+    //Disable Skip if Check and Proceed is clicked
+    setDisableSkip(true);
+
     // Reset the input blank flag
     setInputBlank(false);
 
@@ -125,6 +130,7 @@ const Kanji = () => {
         navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
       }
       setButtonDisabled(false);
+      setDisableSkip(false);
     }, 3000);
   };
 
@@ -148,6 +154,9 @@ const Kanji = () => {
     // Disable the button
     setButtonDisabled(true);
 
+    //Disable Skip if Check and Proceed is clicked
+    setDisableSkip(true);
+
     // Reset the input blank flag
     setInputBlank(false);
 
@@ -168,6 +177,7 @@ const Kanji = () => {
       setIncorrectAnswers(newIncorrectAnswers);
       console.log("Incorrect Count", newIncorrectAnswers);
     }
+
     // Delay for 5 seconds and then proceed to the next kanji
     setTimeout(() => {
       if (currentKanjiIndex < extractedKanji.length - 1) {
@@ -178,6 +188,7 @@ const Kanji = () => {
         navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
       }
       setButtonDisabled(false);
+      setDisableSkip(false);
     }, 3000);
   };
 
@@ -203,6 +214,10 @@ const Kanji = () => {
     setSkipButtonDisabled(true);
 
     setIsCorrect(false);
+
+    //Disbale Check and Proceed if Skip is clicked
+    setDisableCheck(true);
+
     ++newIncorrectAnswers;
     setIncorrectAnswers(newIncorrectAnswers);
     console.log("Incorrect Count", newIncorrectAnswers);
@@ -215,8 +230,10 @@ const Kanji = () => {
         navigate(`/result/${newCorrectAnswers}/${newIncorrectAnswers}`);
       }
       setSkipButtonDisabled(false);
+      setDisableCheck(false);
     }, 3000);
   };
+
   //Need to add contion rendering as per the Type of Quiz Selected
   return (
     <div>
@@ -231,6 +248,8 @@ const Kanji = () => {
           checkAndShowNextKanji={checkAndShowNextKanji}
           inputBlank={inputBlank}
           markIncorrectOnSkip={markIncorrectOnSkip}
+          disableSkip={disableSkip}
+          disableCheck={disableCheck}
         />
       ) : (
         <MeaningToKanji
@@ -243,6 +262,8 @@ const Kanji = () => {
           checkAndShowNextMeaning={checkAndShowNextMeaning}
           inputBlank={inputBlank}
           markIncorrectOnSkip={markIncorrectOnSkip}
+          disableSkip={disableSkip}
+          disableCheck={disableCheck}
         />
       )}
     </div>
