@@ -218,6 +218,9 @@ const Kanji = () => {
     //Disbale Check and Proceed if Skip is clicked
     setDisableCheck(true);
 
+    //Clears our the strings "Input cannot be blank!" when skip is clicked after check & proceed is clicked with blank input
+    setInputBlank(false);
+
     ++newIncorrectAnswers;
     setIncorrectAnswers(newIncorrectAnswers);
     console.log("Incorrect Count", newIncorrectAnswers);
@@ -271,94 +274,3 @@ const Kanji = () => {
 };
 
 export default Kanji;
-
-//Kanji To Meaning Code
-
-{
-  /*  
-      //Kanji To Meaning Code      
-      <div className="extractedKanjiSection">
-        {extractedKanji.length > 0 && (
-          <div>
-            {console.log(extractedKanji)}
-            <h2>Extracted Kanji</h2>
-            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
-            <p>Onyomi Readings :</p>
-            <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
-            <p>Kunyomi Readings :</p>
-            <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p>
-            <p>Kanji Meaning :</p>
-            <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
-            <div className="checkKanji">
-              <input
-                type="text"
-                id="kanjiInput"
-                name="kanjiInput"
-                onChange={extractUserKanjiInput}
-                onKeyDown={hitEntertoProceedKanji}
-                placeholder="Kanji Meaning..."
-                value={userKanjiInput}
-              />
-            </div>
-            <div className="quizMiniResult">
-              {isCorrect != null && (
-                <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
-              )}
-              {currentKanjiIndex < extractedKanji.length && (
-                <button onClick={checkAndShowNextKanji}>
-                  Check and Proceed
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </div> 
-      
-      // Meaning To Kanji Code
-      
-      
-      */
-}
-
-//Meaning To Kanji Code
-/*
-      <div className="extractedKanjiSection">
-        {extractedKanji.length > 0 && (
-          <div>
-            {console.log(extractedKanji)}
-            <h2>Extracted Kanji's Meaning</h2>
-            <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
-            <p>Onyomi Readings :</p>
-            <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
-            <p>Kunyomi Readings :</p>
-            <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p> 
-            <p>Kanji</p>
-            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
-            <div className="checkKanji">
-              <input
-                type="text"
-                id="kanjiInput"
-                name="kanjiInput"
-                lang="ja"
-                onChange={extractUserKanjiInput}
-                onKeyDown={hitEntertoProceedMeaning}
-                placeholder="Kanji..."
-                value={userKanjiInput}
-              />
-            </div>
-            <div className="quizMiniResult">
-              {isCorrect != null && (
-                <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
-              )}
-              {currentKanjiIndex < extractedKanji.length && (
-                <button onClick={checkAndShowNextMeaning}>
-                  Check and Proceed
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
-
-*/
