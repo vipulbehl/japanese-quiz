@@ -6,7 +6,7 @@ const NotFound = () => {
     <div className="not-found">
       <h1>Error! </h1>
       <h2>The page you are looking for doesn't exist</h2>
-      <Link to="/">
+      <Link to="/home">
         <button>Go back to Home</button>
       </Link>
     </div>

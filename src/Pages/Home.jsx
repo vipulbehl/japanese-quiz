@@ -63,8 +63,13 @@ const Home = () => {
     }
   };
 
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
   return (
     <div>
+      <button onClick={handleLogout}>Logout</button>
       <div className="select-level">
         {levels.map((level) => (
           <button key={level} onClick={() => selectLevel(level)}>

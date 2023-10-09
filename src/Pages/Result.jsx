@@ -10,7 +10,7 @@ const Result = () => {
       <h1>Results</h1>
       <p>Total Correct Answers: {correctAnswers}</p>
       <p>Total Incorrect Answers: {incorrectAnswers}</p>
-      <Link to="/">
+      <Link to="/home">
         <button>Back to Home</button>
       </Link>
     </div>
