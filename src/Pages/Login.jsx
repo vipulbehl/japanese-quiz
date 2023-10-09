@@ -7,6 +7,8 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  // const [loginError, setLoginError] = useState("");
+  const [errorExist, setErrorExist] = useState(false);
   const handleLogin = () => {
     // Retrieve user data from local storage
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -19,7 +21,8 @@ const Login = () => {
       // Redirect to home page upon successful login
       navigate(`/home`);
     } else {
-      alert("Incorrect credentials.");
+      // setEmailError("Incorrect Credentials");
+      setErrorExist(true);
     }
   };
 
@@ -38,6 +41,7 @@ const Login = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {errorExist && <p>Incorrect Credentials</p>}
       <button onClick={handleLogin}>Login</button>
     </div>
   );
