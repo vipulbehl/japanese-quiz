@@ -1,0 +1,10 @@
+@import "./Base.css";
+
+.logout-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 40vw;
+  min-height: 30vh;
+}

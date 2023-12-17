@@ -1,0 +1,78 @@
+@import "./Base.css";
+
+.resultSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  min-width: 40vw;
+  min-height: 30vh;
+  margin-top: 30px;
+}
+
+.result-container {
+  padding: 20px;
+  margin: 20px 0px;
+  line-height: 1.8rem;
+  /* width: 80%; */
+}
+.result-container h2,
+p {
+  text-align: justify;
+}
+
+.back-home-button {
+  margin: 10px 0 0 0;
+  align-items: center;
+  width: 100%;
+}
+
+/* Media Queries for Phone */
+@media only screen and (max-width: 600px) {
+  .resultSection {
+    min-width: 30vw;
+    min-height: 30vh;
+    margin-top: 15px;
+  }
+  .result-container {
+    line-height: 1.6rem;
+    padding: 15px;
+    margin: 10px 0px;
+  }
+
+  .result-container h2 {
+    font-size: 1rem;
+  }
+  .result-container p {
+    font-size: 0.8rem;
+  }
+  .back-home-button {
+    font-size: 0.8rem;
+  }
+}
+
+/* Media query for tablets */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .resultSection {
+    min-width: 30vw;
+    min-height: 30vh;
+    margin-top: 15px;
+  }
+  .result-container {
+    line-height: 1.6rem;
+    padding: 15px;
+    margin: 10px 0px;
+  }
+  .result-container h2 {
+    font-size: 1rem;
+  }
+  .result-container p {
+    font-size: 0.8rem;
+  }
+  .back-home-button {
+    font-size: 0.8rem;
+  }
+}

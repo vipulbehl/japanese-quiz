@@ -1,7 +1,9 @@
+import "../styling/Logout.css";
+
 const Logout = () => {
   return (
-    <div>
-      <p>You have succesfully logged out</p>
+    <div className="logout-section">
+      <p>You have succesfully logged out.</p>
     </div>
   );
 };

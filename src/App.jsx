@@ -1,16 +1,17 @@
-import "./App.css";
+import "../src/styling/App.css";
 import LoginButton from "./Components/LoginButton";
 import LogoutButton from "./Components/LogoutButton";
 import Profile from "./Components/Profile";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const App = () => {
   const { isLoading, error } = useAuth0();
+
   return (
     <BrowserRouter>
-      <main>
-        <h1>Auth0 Login</h1>
+      <main className="app-container">
+        {<h1 className="app-heading">漢字 Quiz </h1>}
         {error && <p>Authentication Error</p>}
         {!error && isLoading && <p>Loading...</p>}
         {!error && !isLoading && (

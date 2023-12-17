@@ -1,6 +1,7 @@
 //Home page this will have the level selector and the number of questions for the quiz
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styling/Home.css";
 
 const levels = [
   "grade-1",
@@ -69,44 +70,92 @@ const Home = () => {
 
   return (
     <div>
-      <button onClick={handleLogout}>Logout</button>
-      <div className="select-level">
-        {levels.map((level) => (
-          <button key={level} onClick={() => selectLevel(level)}>
-            {level}
-          </button>
-        ))}
-      </div>
-      <div className="getKanjiSection">
-        <input
-          type="text"
-          id="kanjiNumber"
-          name="kanjiNumber"
-          onChange={extractNumber}
-          onKeyDown={hitEntertoProceed}
-          value={kanjiNumber}
-        />
-        <div className="quiz-type">
-          {quizes.map((quiz) => (
-            <button key={quiz} onClick={() => selectQuizType(quiz)}>
-              {quiz}
+      <div className="question-section-holder">
+        {/* <button  onClick={handleLogout}>Logout</button> */}
+        <h4 className="home-headings">Select your level:</h4>
+        <div className="select-level">
+          {levels.map((level) => (
+            <button
+              className="japanese-button"
+              key={level}
+              onClick={() => selectLevel(level)}
+            >
+              {level}
             </button>
           ))}
         </div>
-        {showWarning && (
-          <p className="warning-message">
-            Studies have shown taking a maximum of 80 questions at once
-            optimizes quiz output for the learner.
+        <div className="getKanjiSection">
+          <div className="question-secion">
+            <h4 className="home-headings">Questions to take in Quiz: </h4>
+            <input
+              type="text"
+              id="kanjiNumber"
+              name="kanjiNumber"
+              onChange={extractNumber}
+              onKeyDown={hitEntertoProceed}
+              value={kanjiNumber}
+            />
+          </div>
+          <div className="quiz-type">
+            <h4 className="home-headings">
+              What type of Quiz would you like to take?
+            </h4>
+            <div className="quiz-type-buttons">
+              {quizes.map((quiz) => (
+                <button
+                  className="japanese-button"
+                  key={quiz}
+                  onClick={() => selectQuizType(quiz)}
+                >
+                  {quiz}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="lets-go-section">
+            <button
+              className="japanese-button"
+              onClick={startQuiz}
+              disabled={kanjiNumber > 80}
+            >
+              Let's Go
+            </button>
+          </div>
+          {showWarning && (
+            <p className="warning-message">
+              Studies have shown taking a maximum of 80 questions at once
+              optimizes quiz output for the learner.
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="quizSettings">
+        <div className="settings-holder">
+          <h4 className="home-headings make-bold-settings">
+            Current Quiz Settings
+          </h4>
+
+          <p>
+            <i class="fa-solid fa-caret-right">
+              <span className="make-bold-settings"> Grade:</span>
+            </i>{" "}
+            {selectedLevel}
           </p>
-        )}
-        <button onClick={startQuiz} disabled={kanjiNumber > 80}>
-          Let's Go
-        </button>
-        <div className="quizSettings">
-          <h3>Current Quiz Settings</h3>
-          <p>Grade:{selectedLevel}</p>
-          <p>Number of Quiz Questions: {kanjiNumber}</p>
-          <p>Quiz Type : {quizType}</p>
+          <p>
+            <i class="fa-solid fa-caret-right">
+              <span className="make-bold-settings">
+                {" "}
+                Number of Quiz Questions:
+              </span>
+            </i>{" "}
+            {kanjiNumber}
+          </p>
+          <p>
+            <i class="fa-solid fa-caret-right">
+              <span className="make-bold-settings"> Quiz Type: </span>
+            </i>{" "}
+            {quizType}
+          </p>
         </div>
       </div>
     </div>

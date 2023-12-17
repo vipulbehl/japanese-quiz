@@ -8,7 +8,7 @@ import Logout from "./Logout";
 function Pages() {
   return (
     <Routes>
-      <Route path="" />
+      <Route path="" element={<div />} />
       <Route path="/home" element={<Home />} />
       <Route path="/logout" element={<Logout />} />
       <Route

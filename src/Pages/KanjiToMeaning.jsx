@@ -1,4 +1,5 @@
 import React from "react";
+import "../styling/KanjiToMeaning.css";
 
 const KanjiToMeaning = ({
   extractedKanji,
@@ -17,16 +18,38 @@ const KanjiToMeaning = ({
     <div>
       <div className="extractedKanjiSection">
         {extractedKanji.length > 0 && (
-          <div>
+          <div className="quiz-container">
             {console.log(extractedKanji)}
-            <h2>Extracted Kanji</h2>
-            <p>{extractedKanji[currentKanjiIndex].kanji}</p>
-            <p>Onyomi Readings :</p>
-            <p>{extractedKanji[currentKanjiIndex].on_readings.join(", ")}</p>
-            <p>Kunyomi Readings :</p>
-            <p>{extractedKanji[currentKanjiIndex].kun_readings.join(", ")}</p>
-            <p>Kanji Meaning :</p>
-            <p>{extractedKanji[currentKanjiIndex].meanings.join(", ")}</p>
+            <div className="kanji-api-details">
+              <div className="quiz-kanji-holder">
+                <p className="quiz-question">
+                  Kanji <i class="fa-solid fa-caret-down"></i>
+                </p>
+                <p className="quiz-jp-reading">
+                  {extractedKanji[currentKanjiIndex].kanji}
+                </p>
+              </div>
+              <div className="onyomi-section">
+                <p className="quiz-question">
+                  Onyomi Readings <i class="fa-solid fa-caret-down"></i>
+                </p>
+                <p>
+                  {extractedKanji[currentKanjiIndex].on_readings.join(", ")}
+                </p>
+              </div>
+              <div className="kunyomi-section">
+                <p className="quiz-question">
+                  Kunyomi Readings <i class="fa-solid fa-caret-down"></i>
+                </p>
+                <p className="quiz-jp-reading">
+                  {extractedKanji[currentKanjiIndex].kun_readings.join(", ")}
+                </p>
+              </div>
+              {/* <p>Kanji Meaning :</p>
+              <p className="quiz-jp-reading">
+                {extractedKanji[currentKanjiIndex].meanings.join(", ")}
+              </p> */}
+            </div>
             <div className="checkKanji">
               <input
                 type="text"
@@ -34,33 +57,49 @@ const KanjiToMeaning = ({
                 name="kanjiInput"
                 onChange={extractUserKanjiInput}
                 onKeyDown={hitEntertoProceedKanji}
-                placeholder="Kanji Meaning..."
+                placeholder="Enter Kanji's Meaning..."
                 value={userKanjiInput}
               />
             </div>
             {inputBlank && (
-              <p className="warning-message">Input cannot be blank!</p>
+              <p className="blank-input-message">Input cannot be blank!</p>
             )}
             <div className="quizMiniResult">
               {isCorrect != null && (
-                <p>{isCorrect ? "Correct!" : "Incorrect"}</p>
+                <p
+                  className={isCorrect ? "correct-answer" : "incorrect-answer"}
+                >
+                  {isCorrect ? "Correct!" : "Incorrect"}
+                </p>
               )}
               {isCorrect === false && (
-                <p>
-                  Correct Answer is:
+                <p className="corrected-answer">
+                  <strong>
+                    Correct Answer is <i class="fa-solid fa-caret-right"></i>
+                  </strong>
                   {" " + extractedKanji[currentKanjiIndex].meanings.join(", ")}
                 </p>
               )}
-              {
-                <button onClick={markIncorrectOnSkip} disabled={disableSkip}>
-                  Skip
-                </button>
-              }
-              {currentKanjiIndex < extractedKanji.length && (
-                <button onClick={checkAndShowNextKanji} disabled={disableCheck}>
-                  Check and Proceed
-                </button>
-              )}
+              <div className="quiz-submission-type">
+                {currentKanjiIndex < extractedKanji.length && (
+                  <button
+                    className="japanese-button"
+                    onClick={checkAndShowNextKanji}
+                    disabled={disableCheck}
+                  >
+                    Check and Proceed
+                  </button>
+                )}
+                {
+                  <button
+                    className="japanese-button"
+                    onClick={markIncorrectOnSkip}
+                    disabled={disableSkip}
+                  >
+                    Skip
+                  </button>
+                }
+              </div>
             </div>
           </div>
         )}
