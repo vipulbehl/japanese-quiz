@@ -69,7 +69,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="cover">
       <div className="question-section-holder">
         {/* <button  onClick={handleLogout}>Logout</button> */}
         <h4 className="home-headings">Select your level:</h4>

@@ -1,3 +1,4 @@
+@import "./Base.css";
 .not-found {
   display: flex;
   flex-direction: column;

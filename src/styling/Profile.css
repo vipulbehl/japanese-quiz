@@ -1,0 +1,7 @@
+@import "./Base.css";
+.profile-container {
+  margin: 20px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}

@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import Pages from "../Pages/Pages";
+import "../styling/Profile.css";
 
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
@@ -7,8 +8,8 @@ const Profile = () => {
   return (
     <div>
       {isAuthenticated && (
-        <article>
-          <h2>こんにちは {user?.nickname}</h2>
+        <article className="profile-container">
+          <h2 className="user-name">こんにちは {user?.nickname} さん</h2>
         </article>
       )}
       <Pages />
