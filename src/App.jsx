@@ -4,7 +4,6 @@ import "../src/styling/App.css";
 // import Profile from "./Components/Profile";
 import { BrowserRouter } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import "./styling/Main.css";
 
 import AuthHandler from "./Pages/AuthHandler";
 
