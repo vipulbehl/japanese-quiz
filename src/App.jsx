@@ -9,7 +9,7 @@ import AuthHandler from "./Pages/AuthHandler";
 
 const App = () => {
   const { isLoading, error } = useAuth0();
-
+  //gg
   // return (
   //   <BrowserRouter>
   //     <main className="app-container">
